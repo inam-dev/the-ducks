@@ -7,4 +7,11 @@ export default [
 		route("processing", "routes/processing.tsx"),
 		route("results", "routes/results.tsx"),
 	]),
+	index("routes/dashboard.tsx"),
+	route("summary", "routes/summary.tsx"),
+	route("redaction", "routes/redaction.tsx"),
+	route("translation", "routes/translation.tsx"),
+	route("handwritten", "routes/handwritten.tsx"),
+	route("accessibility", "routes/accessibility.tsx"),
+	route("history", "routes/history.tsx"),
 ] satisfies RouteConfig;
