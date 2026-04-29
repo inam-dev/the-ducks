@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { useOutletContext } from "react-router";
 import { mockArchiveDocuments } from "../data/mockArchiveDocuments";
 import type { AppOutletContext } from "../types/app";
@@ -11,6 +12,20 @@ export function meta() {
 
 export default function ArchivePage() {
   const { user, t } = useOutletContext<AppOutletContext>();
+  const [query, setQuery] = useState("");
+  const filteredDocuments = useMemo(() => {
+    const search = query.trim().toLowerCase();
+    if (!search) {
+      return mockArchiveDocuments;
+    }
+
+    return mockArchiveDocuments.filter((doc) =>
+      [doc.filename, doc.source, doc.documentType, doc.department, doc.status, doc.uploadedAt, doc.dbsAccessRequired, demoSearchAliases(doc.id)]
+        .join(" ")
+        .toLowerCase()
+        .includes(search),
+    );
+  }, [query]);
 
   return (
     <div className="space-y-6">
@@ -20,6 +35,22 @@ export default function ArchivePage() {
           {t("archiveDescription")}
         </p>
       </header>
+
+      <section className="panel-card p-4">
+        <label className="block text-sm font-bold text-slate-700 dark:text-slate-200">
+          Search archive
+          <input
+            className="mt-2 w-full rounded-xl border border-blue-100 bg-white px-4 py-3 text-sm shadow-sm hover:border-teal-200 dark:border-slate-700 dark:bg-slate-950"
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search filename, type, department, status..."
+          />
+        </label>
+        <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">
+          Showing {filteredDocuments.length} of {mockArchiveDocuments.length} demo documents
+        </p>
+      </section>
 
       <section className="panel-card overflow-hidden">
         <div className="overflow-x-auto">
@@ -37,7 +68,7 @@ export default function ArchivePage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              {mockArchiveDocuments.map((doc) => {
+              {filteredDocuments.map((doc) => {
                 const locked = user.accessLevel < doc.accessLevelRequired;
                 return (
                   <tr key={doc.id} className={locked ? "bg-slate-50 text-slate-400 dark:bg-slate-950/40" : ""}>
@@ -57,6 +88,13 @@ export default function ArchivePage() {
                   </tr>
                 );
               })}
+              {filteredDocuments.length === 0 && (
+                <tr>
+                  <td className="px-5 py-8 text-center font-semibold text-slate-500 dark:text-slate-400" colSpan={8}>
+                    No demo documents match your search.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -77,4 +115,8 @@ function statusStyle(status: string) {
     return "bg-yellow-100 text-yellow-900";
   }
   return "bg-red-100 text-red-800";
+}
+
+function demoSearchAliases(id: string) {
+  return id === "doc-001" ? "John Doe UB8 3PH hayes road" : "";
 }

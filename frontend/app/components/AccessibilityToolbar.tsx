@@ -4,22 +4,34 @@ interface AccessibilityToolbarProps {
   onClose: () => void;
 }
 
+const STORAGE_KEY = "councilpoint_accessibility";
+type AccessibilitySettings = {
+  darkMode: boolean;
+  fontSize: number;
+  highContrast: boolean;
+};
+
+const defaultSettings: AccessibilitySettings = { darkMode: false, fontSize: 16, highContrast: false };
+
 export default function AccessibilityToolbar({ onClose }: AccessibilityToolbarProps) {
-  const [darkMode, setDarkMode] = useState(false);
-  const [fontSize, setFontSize] = useState(16);
-  const [highContrast, setHighContrast] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => getStoredSettings().darkMode);
+  const [fontSize, setFontSize] = useState(() => getStoredSettings().fontSize);
+  const [highContrast, setHighContrast] = useState(() => getStoredSettings().highContrast);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
+    saveSettings({ darkMode, fontSize, highContrast });
   }, [darkMode]);
 
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontSize}px`;
+    saveSettings({ darkMode, fontSize, highContrast });
   }, [fontSize]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("high-contrast", highContrast);
+    saveSettings({ darkMode, fontSize, highContrast });
   }, [highContrast]);
 
   const toggleSpeech = () => {
@@ -75,4 +87,23 @@ function toolbarButton(active: boolean) {
   return `rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
     active ? "bg-yellow-400 text-slate-950" : "bg-slate-700 text-white hover:bg-slate-600"
   }`;
+}
+
+function getStoredSettings(): AccessibilitySettings {
+  if (typeof window === "undefined") {
+    return defaultSettings;
+  }
+
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    return stored ? { ...defaultSettings, ...(JSON.parse(stored) as Partial<AccessibilitySettings>) } : defaultSettings;
+  } catch {
+    return defaultSettings;
+  }
+}
+
+function saveSettings(settings: AccessibilitySettings) {
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+  }
 }

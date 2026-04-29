@@ -100,6 +100,12 @@ export default function ProtectedLayout() {
 
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[240px_1fr] lg:px-8">
         <aside className="panel-card sticky top-24 self-start p-3">
+          <button
+            className="mb-3 w-full rounded-lg border border-blue-100 bg-white px-3 py-2 text-sm font-semibold shadow-sm hover:border-teal-200 hover:bg-teal-50 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 md:hidden"
+            onClick={() => setShowAccessibility((value) => !value)}
+          >
+            {t("accessibility")}
+          </button>
           <label className="mb-3 flex items-center gap-2 rounded-lg bg-slate-50 p-3 text-sm font-semibold dark:bg-slate-800 md:hidden">
             <span>{t("language")}</span>
             <select

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
 import { useOutletContext } from "react-router";
-import { translateDocument } from "../api/documentsApi";
+import { getLatestDocumentResult, translateDocument } from "../api/documentsApi";
 import { calculateShareSafeScore, mockDocumentResult } from "../data/mockDocumentResult";
 import { languageOptions } from "../i18n";
 import type { AppOutletContext } from "../types/app";
@@ -17,16 +17,16 @@ export function meta() {
 
 export default function ResultsPage() {
   const { user, t } = useOutletContext<AppOutletContext>();
+  const documentResult = getLatestDocumentResult() ?? mockDocumentResult;
   const [view, setView] = useState<"redacted" | "original">("redacted");
   const [targetLanguage, setTargetLanguage] = useState("Polish");
-  const [translatedText, setTranslatedText] = useState(mockDocumentResult.translatedText);
+  const [translatedText, setTranslatedText] = useState(documentResult.translatedText);
 
   const canViewOriginal = user.accessLevel >= 3 && user.canViewOriginalSensitiveData;
-  const canViewProtectedDetails = user.accessLevel >= 3 && user.canViewChildOrVulnerableInfo;
-  const score = calculateShareSafeScore(mockDocumentResult.sensitiveItems, true);
+  const score = calculateShareSafeScore(documentResult.sensitiveItems, true);
 
   const requestTranslation = async () => {
-    const response = await translateDocument(mockDocumentResult.id, targetLanguage);
+    const response = await translateDocument(documentResult.id, targetLanguage);
     setTranslatedText(response.translatedText);
   };
 
@@ -46,17 +46,17 @@ export default function ResultsPage() {
           <Panel title={t("documentSummary")}>
             <dl className="grid gap-4 md:grid-cols-3">
               {[
-                ["Filename", mockDocumentResult.filename],
-                ["Source", mockDocumentResult.source],
-                ["Document type", mockDocumentResult.documentType],
-                ["Document condition", mockDocumentResult.documentCondition],
-                ["Language", mockDocumentResult.language],
-                ["Historic document", mockDocumentResult.historicDocument ? "Yes" : "No"],
-                ["Handwriting detected", mockDocumentResult.handwritingDetected ? "Yes" : "No"],
-                ["OCR confidence", `${mockDocumentResult.ocrConfidence}%`],
-                ["Handwriting confidence", mockDocumentResult.handwritingConfidence ? `${mockDocumentResult.handwritingConfidence}%` : "Not detected"],
-                ["Reference ID", mockDocumentResult.referenceId],
-                ["Urgency", mockDocumentResult.urgency],
+                ["Filename", documentResult.filename],
+                ["Source", documentResult.source],
+                ["Document type", documentResult.documentType],
+                ["Document condition", documentResult.documentCondition],
+                ["Language", documentResult.language],
+                ["Historic document", documentResult.historicDocument ? "Yes" : "No"],
+                ["Handwriting detected", documentResult.handwritingDetected ? "Yes" : "No"],
+                ["OCR confidence", `${documentResult.ocrConfidence}%`],
+                ["Handwriting confidence", documentResult.handwritingConfidence ? `${documentResult.handwritingConfidence}%` : "Not detected"],
+                ["Reference ID", documentResult.referenceId],
+                ["Urgency", documentResult.urgency],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-lg bg-slate-50 p-4 dark:bg-slate-800">
                   <dt className="text-xs font-bold uppercase text-slate-500">{label}</dt>
@@ -68,16 +68,16 @@ export default function ResultsPage() {
 
           <div className="grid gap-6 lg:grid-cols-2">
             <Panel title={t("aiSummary")}>
-              <p className="leading-relaxed text-slate-700 dark:text-slate-200">{mockDocumentResult.aiSummary}</p>
+              <p className="leading-relaxed text-slate-700 dark:text-slate-200">{documentResult.aiSummary}</p>
             </Panel>
             <Panel title={t("residentSummary")}>
-              <p className="leading-relaxed text-slate-700 dark:text-slate-200">{mockDocumentResult.residentFriendlySummary}</p>
+              <p className="leading-relaxed text-slate-700 dark:text-slate-200">{documentResult.residentFriendlySummary}</p>
             </Panel>
           </div>
 
           <Panel title={t("extractedData")}>
             <div className="grid gap-3 md:grid-cols-2">
-              {mockDocumentResult.extractedFields.map((field) => (
+              {documentResult.extractedFields.map((field) => (
                 <div key={field.label} className="rounded-lg border border-slate-200 p-4 dark:border-slate-800">
                   <p className="text-xs font-bold uppercase text-slate-500">{field.label}</p>
                   <p className="mt-2 font-semibold">{maskField(field.label, field.value, user)}</p>
@@ -103,7 +103,7 @@ export default function ResultsPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-                  {mockDocumentResult.sensitiveItems
+                  {documentResult.sensitiveItems
                     .filter((item) => canShowSensitiveRow(item, user))
                     .map((item) => (
                       <tr key={item.type}>
@@ -133,14 +133,14 @@ export default function ResultsPage() {
               </div>
             )}
             <div className="rounded-xl bg-slate-950 p-5 font-mono text-sm leading-7 text-slate-100">
-              {canViewOriginal && view === "original" ? mockDocumentResult.originalText : mockDocumentResult.redactedText}
+              {canViewOriginal && view === "original" ? documentResult.originalText : documentResult.redactedText}
             </div>
           </Panel>
 
           {user.canViewAuditLogs ? (
             <Panel title={t("auditTrail")}>
               <ul className="space-y-3">
-                {mockDocumentResult.auditTrail.map((entry) => (
+                {documentResult.auditTrail.map((entry) => (
                   <li key={entry} className="rounded-lg bg-slate-50 p-3 text-sm font-medium dark:bg-slate-800">{entry}</li>
                 ))}
               </ul>
@@ -156,7 +156,7 @@ export default function ResultsPage() {
           <Panel title={t("shareSafeScore")}>
             <div className="text-center">
               <p className="text-6xl font-black text-teal-600">{score}%</p>
-              <p className="mt-2 font-bold">{mockDocumentResult.gdprStatus}</p>
+              <p className="mt-2 font-bold">{documentResult.gdprStatus}</p>
             </div>
             <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
               <div className="h-full rounded-full bg-teal-600" style={{ width: `${score}%` }} />
@@ -164,15 +164,15 @@ export default function ResultsPage() {
             <dl className="mt-5 grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-lg bg-red-50 p-3 text-red-900">
                 <dt className="font-bold">Risk before</dt>
-                <dd>{mockDocumentResult.riskBeforeRedaction}</dd>
+                <dd>{documentResult.riskBeforeRedaction}</dd>
               </div>
               <div className="rounded-lg bg-teal-50 p-3 text-teal-900">
                 <dt className="font-bold">Risk after</dt>
-                <dd>{mockDocumentResult.riskAfterRedaction}</dd>
+                <dd>{documentResult.riskAfterRedaction}</dd>
               </div>
             </dl>
             <ul className="mt-4 space-y-2 text-sm">
-              {mockDocumentResult.gdprWarnings.map((warning) => (
+              {documentResult.gdprWarnings.map((warning) => (
                 <li key={warning} className="rounded-lg bg-slate-50 p-2 dark:bg-slate-800">{warning}</li>
               ))}
             </ul>
@@ -180,16 +180,16 @@ export default function ResultsPage() {
 
           <Panel title={t("autoRouting")}>
             <p className="text-sm text-slate-500">{t("suggestedDepartment")}</p>
-            <p className="text-xl font-black">{mockDocumentResult.suggestedDepartment}</p>
-            <p className="mt-4 text-sm font-bold">{t("confidence")}: {mockDocumentResult.routingConfidence}%</p>
-            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{mockDocumentResult.routingReason}</p>
+            <p className="text-xl font-black">{documentResult.suggestedDepartment}</p>
+            <p className="mt-4 text-sm font-bold">{t("confidence")}: {documentResult.routingConfidence}%</p>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{documentResult.routingReason}</p>
             <div className="mt-4 rounded-lg bg-yellow-50 p-4 text-sm font-semibold text-yellow-950">
-              {mockDocumentResult.suggestedNextAction}
+              {documentResult.suggestedNextAction}
             </div>
           </Panel>
 
           <Panel title={t("translationPanel")}>
-            <p className="text-sm text-slate-500">{t("detectedLanguage")}: {mockDocumentResult.language}</p>
+            <p className="text-sm text-slate-500">{t("detectedLanguage")}: {documentResult.language}</p>
             <select className="mt-3 w-full rounded-lg border border-slate-300 px-3 py-2 dark:border-slate-700 dark:bg-slate-950" value={targetLanguage} onChange={(event) => setTargetLanguage(event.target.value)}>
               {languageOptions.map((language) => (
                 <option key={language.code}>{language.label}</option>
@@ -204,10 +204,10 @@ export default function ResultsPage() {
           <Panel title={t("smartAssistant")}>
             <div className="space-y-3 text-sm">
               <p><strong>GDPR:</strong> {score}% share-safe after redaction.</p>
-              <p><strong>Routing:</strong> Send to {mockDocumentResult.suggestedDepartment}.</p>
-              <p><strong>Next action:</strong> {mockDocumentResult.suggestedNextAction}</p>
-              <p><strong>Resident summary:</strong> {mockDocumentResult.residentFriendlySummary}</p>
-              <p className="rounded-lg bg-blue-50 p-3 font-semibold text-blue-950">{mockDocumentResult.staffNoteSuggestion}</p>
+              <p><strong>Routing:</strong> Send to {documentResult.suggestedDepartment}.</p>
+              <p><strong>Next action:</strong> {documentResult.suggestedNextAction}</p>
+              <p><strong>Resident summary:</strong> {documentResult.residentFriendlySummary}</p>
+              <p className="rounded-lg bg-blue-50 p-3 font-semibold text-blue-950">{documentResult.staffNoteSuggestion}</p>
             </div>
           </Panel>
         </aside>
@@ -264,6 +264,9 @@ function canShowSensitiveRow(item: SensitiveItem, user: User) {
 }
 
 function maskSensitiveValue(item: SensitiveItem, user: User) {
+  if (item.type === "Reference ID" && item.value.toLowerCase().includes("dob")) {
+    return "[REDACTED DOB]";
+  }
   if (user.accessLevel <= 2) {
     return "[REDACTED - DBS access required]";
   }
@@ -274,6 +277,9 @@ function maskSensitiveValue(item: SensitiveItem, user: User) {
 }
 
 function maskField(label: string, value: string, user: User) {
+  if (label.toLowerCase() === "dob") {
+    return "[REDACTED DOB]";
+  }
   const protectedLabels = ["Resident", "Address", "Health Risk Mentioned"];
   if (user.accessLevel <= 2 && protectedLabels.includes(label)) {
     return "[REDACTED - DBS access required]";

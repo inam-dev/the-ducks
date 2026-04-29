@@ -1,22 +1,20 @@
 package Backend.backenddata;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import Backend.backenddata.entity.Document;     // ❗ You forgot this import
-import Backend.backenddata.security.EncryptionService;
-
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = "Backend",
+        excludeName = {
+                "org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration",
+                "org.springframework.boot.jdbc.autoconfigure.DataSourceInitializationAutoConfiguration",
+                "org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration",
+                "org.springframework.boot.data.jpa.autoconfigure.DataJpaRepositoriesAutoConfiguration"
+        }
+)
 public class BackenddataApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BackenddataApplication.class, args);
     }
-
-    @Autowired
-	public void setEncryptionService(EncryptionService encryptionService) {
-   	 Document.setEncryptionService(encryptionService);
-}
-
 }
