@@ -1,4 +1,4 @@
-package Backend.service;
+package Backend.backenddata.service;
 
 import Backend.backenddata.ai.OllamaClient;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package Backend.backenddata.controller;
 
-import Backend.service.DocumentService;
+import Backend.backenddata.service.DocumentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
