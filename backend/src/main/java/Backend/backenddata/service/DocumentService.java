@@ -1,8 +1,8 @@
-package Backend.service;
+package Backend.backenddata.service;
 
 import Backend.backenddata.ai.OllamaClient;
 import Backend.backenddata.entity.Document;
-import Backend.repository.DocumentRepository;
+import Backend.backenddata.repository.DocumentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
