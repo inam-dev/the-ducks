@@ -3,9 +3,8 @@ import { MainLayout } from '../components/MainLayout';
 import { SectionHeader } from '../components/SectionHeader';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
-import type { Route } from "./+types/history";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Document History - CouncilPoint" },
     { name: "description", content: "Document processing history" }

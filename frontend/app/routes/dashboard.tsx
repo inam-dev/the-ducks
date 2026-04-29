@@ -4,9 +4,8 @@ import { SectionHeader } from '../components/SectionHeader';
 import { StatCard } from '../components/StatCard';
 import { Card } from '../components/Card';
 import { Badge } from '../components/Badge';
-import type { Route } from "./+types/dashboard";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Dashboard - CouncilPoint" },
     { name: "description", content: "CouncilPoint Dashboard" }

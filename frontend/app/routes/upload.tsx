@@ -1,261 +1,152 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router';
-import { MainLayout } from '../components/MainLayout';
-import { SectionHeader } from '../components/SectionHeader';
-import { Card } from '../components/Card';
-import { Button } from '../components/Button';
-import { AlertToast } from '../components/AlertToast';
-import { uploadDocument } from '../api/documentsApi';
-import type { Route } from "./+types/upload";
+import { useRef, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router";
+import { uploadDocument } from "../api/documentsApi";
+import type { AppOutletContext } from "../types/app";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
-    { title: "Upload & Categorise - CouncilPoint" },
-    { name: "description", content: "Upload and categorise documents" }
+    { title: "CouncilPoint - Upload" },
+    { name: "description", content: "Upload council documents" },
   ];
 }
 
-export default function Upload() {
-  const [file, setFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
-  const [confidentiality, setConfidentiality] = useState<string>('Internal');
-  const [accessLevel, setAccessLevel] = useState<string>('Department only');
-  const [successMessage, setSuccessMessage] = useState<string>('');
-  const [showWarning, setShowWarning] = useState<boolean>(false);
-  const [uploading, setUploading] = useState(false);
-  const [dragOver, setDragOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+export default function UploadPage() {
   const navigate = useNavigate();
+  const { t } = useOutletContext<AppOutletContext>();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [source, setSource] = useState("Resident");
+  const [documentType, setDocumentType] = useState("Auto-detect");
+  const [condition, setCondition] = useState("Scanned document");
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([
+    "Extract key data",
+    "Detect sensitive information",
+    "Redact GDPR-sensitive data",
+    "Generate summary",
+    "Auto-route to department",
+    "Run local AI analysis",
+  ]);
+  const [isUploading, setIsUploading] = useState(false);
 
-  const categories = [
-    'Passport',
-    'Visa',
-    'Proof of Address',
-    'Council Tax Letter',
-    'Housing Form',
-    'Complaint',
-    'Medical Evidence',
-    'Handwritten Notes',
-    'General Document'
-  ];
-
-  const confidentialityLevels = ['Public', 'Internal', 'Confidential', 'Highly Confidential'];
-  const accessLevels = ['View only', 'Department only', 'Case worker only', 'Redacted public copy'];
-  const supportedFormats = ['PDF', 'DOCX', 'DOC', 'TXT', 'PNG', 'JPG'];
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      setFileName(selectedFile.name);
-    }
+  const toggleOption = (option: string) => {
+    setSelectedOptions((current) =>
+      current.includes(option) ? current.filter((item) => item !== option) : [...current, option],
+    );
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile) {
-      setFile(droppedFile);
-      setFileName(droppedFile.name);
+  const processDocument = async () => {
+    setIsUploading(true);
+    if (file) {
+      await uploadDocument(file);
     }
-  };
-
-  const handleConfidentialityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setConfidentiality(value);
-    setShowWarning(value === 'Highly Confidential');
-  };
-
-  const handleProcess = async () => {
-    if (!fileName || !title || !category) {
-      setSuccessMessage('Please fill in all required fields');
-      return;
-    }
-    
-    setUploading(true);
-    try {
-      if (file) {
-        await uploadDocument(file);
-      }
-      setSuccessMessage('Document uploaded and queued for secure processing.');
-      setTimeout(() => navigate('/processing'), 2000);
-    } catch (error) {
-      console.error('Upload failed:', error);
-      setSuccessMessage('Document queued for secure processing.');
-      setTimeout(() => navigate('/processing'), 2000);
-    } finally {
-      setUploading(false);
-    }
+    navigate("/processing");
   };
 
   return (
-    <MainLayout>
-      <SectionHeader
-        title="Upload & Categorise"
-        description="Upload documents and classify them for processing"
-      />
+    <div className="space-y-6">
+      <header>
+        <h1 className="text-3xl font-black">{t("uploadDocument")}</h1>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">
+          {t("uploadDescription")}
+        </p>
+      </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Upload Form */}
-        <div className="lg:col-span-2">
-          <Card title="Upload Document">
-            <div className="p-6 space-y-6">
-              {/* Drag & Drop Area */}
-              <div
-                className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer ${
-                  dragOver
-                    ? 'border-teal-500 bg-teal-50'
-                    : file
-                    ? 'border-teal-500 bg-teal-50/30'
-                    : 'border-gray-300 hover:border-blue-400'
-                }`}
-                onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-                onDragLeave={() => setDragOver(false)}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <div className="text-4xl mb-3">📁</div>
-                <p className="font-medium text-gray-900">Drag and drop your document here</p>
-                <p className="text-sm text-gray-600 mt-1">or click to select a file</p>
-                <input
-                  ref={fileInputRef}
-                  id="file-input"
-                  type="file"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.txt"
-                />
-              </div>
+      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+        <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <button
+            className="flex min-h-64 w-full flex-col items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center hover:border-teal-400 hover:bg-teal-50 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-800"
+            onClick={() => inputRef.current?.click()}
+          >
+            <span className="text-5xl font-black text-yellow-500">CP</span>
+            <span className="mt-4 text-lg font-bold">{t("uploadBox")}</span>
+            <span className="mt-1 text-sm text-slate-500">{t("chooseFile")}</span>
+            {file && <span className="mt-4 rounded-full bg-teal-100 px-4 py-2 text-sm font-bold text-teal-800">{file.name}</span>}
+          </button>
+          <input
+            ref={inputRef}
+            className="hidden"
+            type="file"
+            accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.txt"
+            onChange={(event) => setFile(event.target.files?.[0] ?? null)}
+          />
 
-              {file && (
-                <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-teal-900">✓ File selected: {file.name}</p>
-                    <p className="text-xs text-teal-700">{(file.size / 1024).toFixed(1)} KB</p>
-                  </div>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setFile(null); setFileName(''); }}
-                    className="p-2 text-teal-600 hover:text-teal-800"
-                  >
-                    ✕
-                  </button>
-                </div>
-              )}
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <Select label={t("documentSource")} value={source} onChange={setSource} options={["Resident", "Council Department", "Government Agency", "Historic Archive", "Other"]} />
+            <Select
+              label={t("documentType")}
+              value={documentType}
+              onChange={setDocumentType}
+              options={[
+                "Auto-detect",
+                "Housing Complaint",
+                "Council Tax Query",
+                "Parking Appeal",
+                "Noise Complaint",
+                "Safeguarding Concern",
+                "Missed Bin Collection",
+                "Planning Application",
+                "Historic Handwritten Record",
+                "Tenancy Record",
+                "Government Letter",
+              ]}
+            />
+            <Select
+              label={t("documentCondition")}
+              value={condition}
+              onChange={setCondition}
+              options={["Digital text document", "Scanned document", "Image", "Low-quality scan", "Handwritten historic record"]}
+            />
+          </div>
+        </section>
 
-              {/* Document Title */}
-              <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Document Title *</label>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="e.g., Missed Waste Collection Complaint"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* Category */}
-              <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Document Category *</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Select a category...</option>
-                  {categories.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Confidentiality Level */}
-              <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Confidentiality Level</label>
-                <select
-                  value={confidentiality}
-                  onChange={handleConfidentialityChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  {confidentialityLevels.map((level) => (
-                    <option key={level} value={level}>{level}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Access Level */}
-              <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Access Level</label>
-                <select
-                  value={accessLevel}
-                  onChange={(e) => setAccessLevel(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  {accessLevels.map((level) => (
-                    <option key={level} value={level}>{level}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Warning for Highly Confidential */}
-              {showWarning && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                  <p className="text-sm font-medium text-yellow-900">
-                    ⚠️ This document may contain sensitive personal data. Redaction and access controls are required before sharing.
-                  </p>
-                </div>
-              )}
-
-              {/* Process Button */}
-              <Button variant="primary" onClick={handleProcess} disabled={uploading} className="w-full">
-                {uploading ? 'Processing...' : 'Process Document'}
-              </Button>
-            </div>
-          </Card>
-        </div>
-
-        {/* Info Sidebar */}
-        <div className="space-y-6">
-          <Card title="Supported Formats" className="p-6">
-            <div className="flex flex-wrap gap-2">
-              {supportedFormats.map((format) => (
-                <span
-                  key={format}
-                  className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm font-medium"
-                >
-                  {format}
-                </span>
+        <aside className="space-y-6">
+          <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <h2 className="text-lg font-bold">{t("processingOptions")}</h2>
+            <div className="mt-4 space-y-3">
+              {[
+                "Extract key data",
+                "Detect sensitive information",
+                "Redact GDPR-sensitive data",
+                "Generate summary",
+                "Translate if needed",
+                "Auto-route to department",
+                "Store structured data",
+                "Run local AI analysis",
+              ].map((option) => (
+                <label key={option} className="flex items-center gap-3 rounded-lg bg-slate-50 p-3 text-sm font-medium dark:bg-slate-800">
+                  <input checked={selectedOptions.includes(option)} onChange={() => toggleOption(option)} type="checkbox" />
+                  {option}
+                </label>
               ))}
             </div>
-          </Card>
+          </section>
 
-          <Card title="Tips" className="p-6">
-            <ul className="space-y-3 text-sm text-gray-700">
-              <li>✓ Supported formats: PDF, DOC, DOCX, PNG, JPG</li>
-              <li>✓ Maximum file size: 50 MB</li>
-              <li>✓ Always verify the category before processing</li>
-              <li>✓ Highly Confidential documents require extra review</li>
-            </ul>
-          </Card>
+          <section className="rounded-xl border border-yellow-200 bg-yellow-50 p-5 text-sm text-yellow-950">
+            {t("secureProcessingNote")}
+          </section>
 
-          <Card title="Categories" className="p-6">
-            <p className="text-xs text-gray-600 mb-2 font-medium">Common document types:</p>
-            <div className="space-y-2">
-              {categories.slice(0, 5).map((cat) => (
-                <div key={cat} className="text-xs text-gray-700">• {cat}</div>
-              ))}
-              <div className="text-xs text-gray-500 pt-2">+ {categories.length - 5} more categories</div>
-            </div>
-          </Card>
-        </div>
+          <button
+            className="w-full rounded-xl bg-teal-600 px-5 py-4 font-black text-white hover:bg-teal-700 disabled:opacity-60"
+            onClick={processDocument}
+            disabled={isUploading}
+          >
+            {isUploading ? t("sendingSecurely") : t("processDocument")}
+          </button>
+        </aside>
       </div>
+    </div>
+  );
+}
 
-      {successMessage && (
-        <AlertToast message={successMessage} type="success" onClose={() => setSuccessMessage('')} />
-      )}
-    </MainLayout>
+function Select({ label, value, onChange, options }: { label: string; value: string; onChange: (value: string) => void; options: string[] }) {
+  return (
+    <label className="text-sm font-bold">
+      {label}
+      <select className="mt-2 w-full rounded-lg border border-slate-300 bg-white px-3 py-3 dark:border-slate-700 dark:bg-slate-950" value={value} onChange={(event) => onChange(event.target.value)}>
+        {options.map((option) => (
+          <option key={option}>{option}</option>
+        ))}
+      </select>
+    </label>
   );
 }

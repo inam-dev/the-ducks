@@ -4,9 +4,8 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { AlertToast } from '../components/AlertToast';
-import type { Route } from "./+types/translation";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Translation - CouncilPoint" },
     { name: "description", content: "Document translation service" }

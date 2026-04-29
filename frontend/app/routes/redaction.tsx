@@ -4,9 +4,8 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
-import type { Route } from "./+types/redaction";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Redaction & Privacy - CouncilPoint" },
     { name: "description", content: "Redaction and privacy controls" }

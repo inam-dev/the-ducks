@@ -4,9 +4,8 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
-import type { Route } from "./+types/handwritten";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Handwritten Notes - CouncilPoint" },
     { name: "description", content: "Handwritten notes OCR processing" }

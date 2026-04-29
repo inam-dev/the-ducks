@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 	--font-sans:
 		"Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
@@ -8,11 +10,12 @@
 
 html,
 body {
-	@apply bg-white dark:bg-gray-950;
+	@apply bg-white text-slate-900 dark:bg-gray-950 dark:text-slate-100;
+	color-scheme: light;
+}
 
-	@media (prefers-color-scheme: dark) {
-		color-scheme: dark;
-	}
+html.dark {
+	color-scheme: dark;
 }
 
 /* Custom scrollbar for main content */
@@ -49,6 +52,29 @@ button, a {
 
 input, select, textarea {
 	@apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-0;
+}
+
+.high-contrast body {
+	background: #000;
+	color: #fff;
+}
+
+.high-contrast a,
+.high-contrast button {
+	outline-color: #facc15;
+}
+
+.high-contrast .bg-white,
+.high-contrast .bg-slate-50,
+.high-contrast .bg-slate-100 {
+	background-color: #050505;
+	color: #fff;
+}
+
+.high-contrast .text-slate-500,
+.high-contrast .text-slate-600,
+.high-contrast .text-slate-700 {
+	color: #f8fafc;
 }
 
 /* Utility classes */

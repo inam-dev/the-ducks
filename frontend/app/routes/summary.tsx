@@ -4,9 +4,8 @@ import { SectionHeader } from '../components/SectionHeader';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
-import type { Route } from "./+types/summary";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Summary - CouncilPoint" },
     { name: "description", content: "Document summary" }

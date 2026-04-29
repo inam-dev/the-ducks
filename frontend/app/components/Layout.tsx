@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </svg>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-800">DuckDocs</h1>
+                <h1 className="text-xl font-bold text-slate-800">CouncilPoint</h1>
                 <p className="text-xs text-slate-500">Secure Document Processor</p>
               </div>
             </div>
@@ -146,7 +146,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <footer className="bg-white border-t border-slate-200 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <p className="text-center text-sm text-slate-500">
-            DuckDocs © 2026 — Secure Document Processor for Local Councils
+            CouncilPoint 2026 - Secure Document Processor for Local Councils
           </p>
         </div>
       </footer>
