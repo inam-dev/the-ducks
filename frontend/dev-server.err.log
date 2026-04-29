@@ -1,0 +1,372 @@
+[2m1:16:49 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RouterProvider2 router={{basename:"/", ...}} unstable_useTransitions={undefined} onError={undefined}>
+      <RouterProvider flushSync={function} router={{basename:"/", ...}} unstable_useTransitions={undefined} ...>
+        <Router basename="/" location={{pathname:"...", ...}} navigationType="POP" navigator={{...}} ...>
+          <DataRoutes routes={[...]} future={{...}} state={{...}} isStatic={false} onError={undefined}>
+            <RenderErrorBoundary location={{pathname:"...", ...}} revalidation="idle" component={<Layout>} ...>
+              <RenderedRoute match={{params:{}, ...}} routeContext={{...}}>
+                <Layout>
+                  <html lang="en">
+                    <head>
+                    <body
+-                     data-new-gr-c-s-check-loaded="14.1286.0"
+-                     data-gr-ext-installed=""
+                    >
+                      ...
+                        <LoginPage params={{}} loaderData={null} actionData={undefined} matches={[...]}>
+                          <div className="min-h-scre...">
+                            <div className="mx-auto gr...">
+                              <section>
+                              <section className="rounded-2x...">
+                                <h2>
+                                <p>
+                                <div className="mt-6 grid ...">
+                                  <label className="text-sm fo...">
+                                    <input
+                                      className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                      value="priya.patel@hillingdon.gov.uk"
+                                      onChange={function onChange}
+                                      type="email"
+-                                     fdprocessedid="ip3yie"
+                                    >
+                                  <label className="text-sm fo...">
+                                    <input
+                                      className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                      value="demo-password"
+                                      onChange={function onChange}
+                                      type="password"
+-                                     fdprocessedid="oofjqs"
+                                    >
+                                  <button
+                                    className="rounded-lg bg-teal-600 px-4 py-3 font-bold text-white hover:bg-teal-700"
+                                    onClick={function onClick}
+                                    disabled={false}
+-                                   fdprocessedid="z40jn"
+                                  >
++                                   Sign in
+                                <div className="mt-8">
+                                  <p>
+                                  <div className="grid gap-3...">
+                                    <button
+                                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transiti..."
+                                      onClick={function onClick}
+                                      disabled={false}
+-                                     fdprocessedid="zgbsj3"
+                                    >
+                                    <button
+                                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transiti..."
+                                      onClick={function onClick}
+                                      disabled={false}
+-                                     fdprocessedid="5t2iwg"
+                                    >
+                                    <button
+                                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transiti..."
+                                      onClick={function onClick}
+                                      disabled={false}
+-                                     fdprocessedid="7q5tme"
+                                    >
+                                    <button
+                                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transiti..."
+                                      onClick={function onClick}
+                                      disabled={false}
+-                                     fdprocessedid="a7icsb"
+                                    >
+                      ...
+
+[2m1:31:07 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RouterProvider2 router={{basename:"/", ...}} unstable_useTransitions={undefined} onError={undefined}>
+      <RouterProvider flushSync={function} router={{basename:"/", ...}} unstable_useTransitions={undefined} ...>
+        <Router basename="/" location={{pathname:"...", ...}} navigationType="POP" navigator={{...}} ...>
+          <DataRoutes routes={[...]} future={{...}} state={{...}} isStatic={false} onError={undefined}>
+            <RenderErrorBoundary location={{pathname:"...", ...}} revalidation="idle" component={<Layout>} ...>
+              <RenderedRoute match={{params:{}, ...}} routeContext={{...}}>
+                <Layout>
+                  <html lang="en">
+                    <head>
+                    <body
+-                     data-new-gr-c-s-check-loaded="14.1286.0"
+-                     data-gr-ext-installed=""
+                    >
+
+[2m1:31:07 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RouterProvider2 router={{basename:"/", ...}} unstable_useTransitions={undefined} onError={undefined}>
+      <RouterProvider flushSync={function} router={{basename:"/", ...}} unstable_useTransitions={undefined} ...>
+        <Router basename="/" location={{pathname:"...", ...}} navigationType="POP" navigator={{...}} ...>
+          <DataRoutes routes={[...]} future={{...}} state={{...}} isStatic={false} onError={undefined}>
+            <RenderErrorBoundary location={{pathname:"...", ...}} revalidation="idle" component={<Layout>} ...>
+              <RenderedRoute match={{params:{}, ...}} routeContext={{...}}>
+                <Layout>
+                  <html lang="en">
+                    <head>
+                    <body
+-                     data-new-gr-c-s-check-loaded="14.1286.0"
+-                     data-gr-ext-installed=""
+                    >
+                      ...
+                        <LoginPage params={{}} loaderData={null} actionData={undefined} matches={[...]}>
+                          <div className="min-h-scre...">
+                            <div className="mx-auto gr...">
+                              <section>
+                              <section className="rounded-2x...">
+                                <h2>
+                                <p>
+                                <div className="mt-6 grid ...">
+                                  <label className="text-sm fo...">
+                                    <input
+                                      className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                      value="priya.patel@hillingdon.gov.uk"
+                                      onChange={function onChange}
+                                      type="email"
+-                                     fdprocessedid="hugf5"
+                                    >
+                                  <label className="text-sm fo...">
+                                    <input
+                                      className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                      value="demo-password"
+                                      onChange={function onChange}
+                                      type="password"
+-                                     fdprocessedid="e3dlx"
+                                    >
+                                  <button
+                                    className="rounded-lg bg-teal-600 px-4 py-3 font-bold text-white hover:bg-teal-700"
+                                    onClick={function onClick}
+                                    disabled={false}
+-                                   fdprocessedid="4vw0r3"
+                                  >
++                                   Sign in
+                                <div className="mt-8">
+                                  <p>
+                                  <div className="grid gap-3...">
+                                    <button
+                                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transiti..."
+                                      onClick={function onClick}
+                                      disabled={false}
+-                                     fdprocessedid="hi1qin"
+                                    >
+                                    <button
+                                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transiti..."
+                                      onClick={function onClick}
+                                      disabled={false}
+-                                     fdprocessedid="c1qpcp"
+                                    >
+                                    <button
+                                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transiti..."
+                                      onClick={function onClick}
+                                      disabled={false}
+-                                     fdprocessedid="rbt5fl"
+                                    >
+                                    <button
+                                      className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transiti..."
+                                      onClick={function onClick}
+                                      disabled={false}
+-                                     fdprocessedid="qqheb"
+                                    >
+                      ...
+
+[2m1:41:35 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route components/ProtectedLayout
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:41:35 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/upload
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:42:11 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route components/ProtectedLayout
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:42:11 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/upload
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:42:11 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/login
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:42:19 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/login
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:42:19 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/upload
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:43:23 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <Layout>
+      <html lang="en">
+        <head>
+        <body>
+          <WithComponentProps2>
+            <App params={{}} loaderData={null} actionData={undefined} matches={[...]}>
+              <Outlet>
+                <RenderedRoute match={{params:{}, ...}} routeContext={{outlet:null, ...}}>
+                  <WithComponentProps2>
+                    <LoginPage params={{}} loaderData={null} actionData={undefined} matches={[...]}>
+                      <div className="min-h-scre...">
+                        <div className="mx-auto gr...">
+                          <section>
+                          <section className="rounded-2x...">
+                            <div className="mb-5 flex ...">
+                              <label className="flex items...">
+                                <select
+                                  className="rounded-lg border border-slate-300 bg-white px-3 py-2"
+                                  value="en"
+                                  onChange={function onChange}
+-                                 fdprocessedid="25o5og"
+                                >
+                            <h2>
+                            <p>
+                            <div className="mt-6 grid ...">
+                              <label className="text-sm fo...">
+                                <input
+                                  className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                  value="priya.patel@hillingdon.gov.uk"
+                                  onChange={function onChange}
+                                  type="email"
+-                                 fdprocessedid="ulkmf"
+                                >
+                              <label className="text-sm fo...">
+                                <input
+                                  className="mt-2 w-full rounded-lg border border-slate-300 px-4 py-3"
+                                  value="demo-password"
+                                  onChange={function onChange}
+                                  type="password"
+-                                 fdprocessedid="2vmb5"
+                                >
+                              <button
+                                className="rounded-lg bg-teal-600 px-4 py-3 font-bold text-white hover:bg-teal-700"
+                                onClick={function onClick}
+                                disabled={false}
+-                               fdprocessedid="3ke1m"
+                              >
++                               Sign in
+                            <div className="mt-8">
+                              <p>
+                              <div className="grid gap-3...">
+                                <button
+                                  className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transition h..."
+                                  onClick={function onClick}
+                                  disabled={false}
+-                                 fdprocessedid="ezjogw"
+                                >
+                                <button
+                                  className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transition h..."
+                                  onClick={function onClick}
+                                  disabled={false}
+-                                 fdprocessedid="1cr4szj"
+                                >
+                                <button
+                                  className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transition h..."
+                                  onClick={function onClick}
+                                  disabled={false}
+-                                 fdprocessedid="nhlwy"
+                                >
+                                <button
+                                  className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transition h..."
+                                  onClick={function onClick}
+                                  disabled={false}
+-                                 fdprocessedid="up02ax"
+                                >
+          ...
+
+[2m1:55:33 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/login
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:55:33 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/upload
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:58:22 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/upload
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:58:22 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/login
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:58:51 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/login
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:58:51 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/upload
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:59:19 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/login
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:59:20 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [31m[Unhandled rejection] [1mError[22m: [react-router:hmr] No module update found for route routes/login
+[39m > ../../@id/__x00__virtual:react-router/hmr-runtime:553:11
+
+[2m1:59:59 PM[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mA tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <RouterProvider2 router={{basename:"/", ...}} unstable_useTransitions={undefined} onError={undefined}>
+      <RouterProvider flushSync={function} router={{basename:"/", ...}} unstable_useTransitions={undefined} ...>
+        <Router basename="/" location={{pathname:"/", ...}} navigationType="POP" navigator={{...}} ...>
+          <DataRoutes routes={[...]} future={{...}} state={{...}} isStatic={false} onError={undefined}>
+            <RenderErrorBoundary location={{pathname:"/", ...}} revalidation="idle" component={<Layout>} ...>
+              <RenderedRoute match={{params:{}, ...}} routeContext={{...}}>
+                <Layout>
+                  <html lang="en">
+                    <head>
+                    <body
+-                     data-new-gr-c-s-check-loaded="14.1286.0"
+-                     data-gr-ext-installed=""
+                    >
+
+Error: No route matches URL "/.well-known/appspecific/com.chrome.devtools.json"
+    at getInternalRouterError (file:///F:/Hillingdom%20Hacky/frontend/node_modules/react-router/dist/development/chunk-QFMPRPBF.mjs:5266:5)
+    at Object.query (file:///F:/Hillingdom%20Hacky/frontend/node_modules/react-router/dist/development/chunk-QFMPRPBF.mjs:3298:19)
+    at handleDocumentRequest (file:///F:/Hillingdom%20Hacky/frontend/node_modules/react-router/dist/development/chunk-2UH5WJXA.mjs:1459:38)
+    at requestHandler (file:///F:/Hillingdom%20Hacky/frontend/node_modules/react-router/dist/development/chunk-2UH5WJXA.mjs:1318:24)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at nodeHandler (F:\Hillingdom Hacky\frontend\node_modules\@react-router\dev\dist\vite.js:3802:30)
+    at F:\Hillingdom Hacky\frontend\node_modules\@react-router\dev\dist\vite.js:3809:17
+No routes matched location "/.well-known/appspecific/com.chrome.devtools.json" 

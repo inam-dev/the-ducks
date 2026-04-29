@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
 	--font-sans:
 		"Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
@@ -8,9 +10,108 @@
 
 html,
 body {
-	@apply bg-white dark:bg-gray-950;
-
-	@media (prefers-color-scheme: dark) {
-		color-scheme: dark;
-	}
+	@apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+	color-scheme: light;
 }
+
+html.dark {
+	color-scheme: dark;
+}
+
+/* Custom scrollbar for main content */
+main {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+main::-webkit-scrollbar {
+	width: 8px;
+}
+
+main::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+main::-webkit-scrollbar-thumb {
+	background-color: rgba(156, 163, 175, 0.5);
+	border-radius: 4px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(107, 114, 128, 0.7);
+}
+
+/* Smooth transitions */
+* {
+	@apply transition-colors duration-200;
+}
+
+button, a {
+	@apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+}
+
+input, select, textarea {
+	@apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-0;
+}
+
+.high-contrast body {
+	background: #000;
+	color: #fff;
+}
+
+.high-contrast a,
+.high-contrast button {
+	outline-color: #facc15;
+}
+
+.high-contrast .bg-white,
+.high-contrast .bg-slate-50,
+.high-contrast .bg-slate-100 {
+	background-color: #050505;
+	color: #fff;
+}
+
+.high-contrast .text-slate-500,
+.high-contrast .text-slate-600,
+.high-contrast .text-slate-700 {
+	color: #f8fafc;
+}
+
+/* Utility classes */
+.glass-effect {
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(10px);
+}
+
+.app-shell-bg {
+	background:
+		radial-gradient(circle at top left, rgba(20, 184, 166, 0.11), transparent 34rem),
+		linear-gradient(135deg, #f8fbff 0%, #eef5fb 48%, #f8fafc 100%);
+}
+
+.dark .app-shell-bg {
+	background:
+		radial-gradient(circle at top left, rgba(45, 212, 191, 0.14), transparent 34rem),
+		linear-gradient(135deg, #020617 0%, #0f172a 56%, #111827 100%);
+}
+
+.panel-card {
+	@apply rounded-2xl border border-slate-200/80 bg-white/95 shadow-[0_10px_30px_rgba(15,23,42,0.08)] ring-1 ring-white/70 backdrop-blur transition-all duration-200 dark:border-slate-700/80 dark:bg-slate-900/92 dark:shadow-[0_18px_42px_rgba(0,0,0,0.32)] dark:ring-white/5;
+}
+
+.panel-card-hover {
+	@apply hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-[0_16px_38px_rgba(15,23,42,0.12)] dark:hover:border-teal-700 dark:hover:shadow-[0_20px_46px_rgba(0,0,0,0.42)];
+}
+
+.soft-border {
+	@apply border border-blue-100/80 dark:border-slate-700/80;
+}
+
+.soft-row {
+	@apply rounded-xl border border-slate-100 bg-slate-50/90 shadow-sm transition-all hover:border-teal-100 hover:bg-teal-50/70 dark:border-slate-800 dark:bg-slate-800/70 dark:hover:border-teal-800 dark:hover:bg-teal-950/30;
+}
+
+.lift-link {
+	@apply transition-all hover:-translate-y-0.5 hover:shadow-lg;
+}
+
