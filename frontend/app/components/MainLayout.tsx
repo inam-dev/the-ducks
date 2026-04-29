@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router';
+import { Logo } from './Logo';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -31,9 +32,7 @@ export function MainLayout({ children }: LayoutProps) {
       <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-gradient-to-b from-blue-900 to-blue-800 text-white shadow-lg transition-all duration-300 overflow-y-auto`}>
         <div className="p-4 border-b border-blue-700">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="text-lg font-bold bg-white text-blue-900 w-10 h-10 rounded-lg flex items-center justify-center">
-              CP
-            </div>
+            <Logo size="md" />
             {sidebarOpen && (
               <div className="flex-1 min-w-0">
                 <h1 className="text-lg font-bold truncate">CouncilPoint</h1>

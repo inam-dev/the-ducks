@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { loginWithCredentials, loginWithDemoUser } from "../api/authApi";
 import { mockUsers } from "../data/mockUsers";
 import { DbsAccessBadge } from "../components/DbsAccessBadge";
+import { Logo } from "../components/Logo";
 import { getLanguageOption, getStoredLanguage, languageOptions, languageStorageKey, translate, type LanguageCode } from "../i18n";
 import { useEffect } from "react";
 
@@ -44,8 +45,8 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-950 px-4 py-8 text-white">
       <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl items-center gap-8 lg:grid-cols-[0.9fr_1.1fr]">
         <section>
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-400 text-2xl font-black text-slate-950 shadow-lg">
-            CP
+          <div className="mb-6 flex items-center justify-start">
+            <Logo size="lg" />
           </div>
           <h1 className="text-5xl font-black tracking-tight">CouncilPoint</h1>
           <p className="mt-4 max-w-xl text-xl text-slate-300">
